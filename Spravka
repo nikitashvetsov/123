@@ -1,1 +1,56 @@
+Aggregation 	Description
+count() 	Total number of items
+first(), last() 	First and last item
+mean(), median() 	Mean and median
+min(), max() 	Minimum and maximum
+std(), var() 	Standard deviation and variance
+mad() 	Mean absolute deviation
+prod() 	Product of all items
+sum() 	Sum of all items
 
+
+print(train.columns.tolist()) - список колонок
+
+Селекторы
+
+selector1 = data.BsmtFinType1 == "GLQ"
+selector2 = data.BsmtFinType1 == "Unf"
+main_selector = selector1 | selector2
+data[main_selector]
+
+Поменять много столбцов
+data.MSZoning = data.MSZoning.apply(lambda x:int2char[x])
+
+df1['ops_on'] = (df1['Feed'] > 10) & (df1['Pressure'] > 10) & (df1['Temp'] > 10)
+
+df['maximum'] = df[['c1','c2']].max(axis =1)
+
+Чтобы выбрать строки, значение столбца которых равно скаляру, some_value, используйте ==:
+
+df.loc[df['column_name'] == some_value]
+
+Чтобы выбрать строки, чье значение столбца находится в итерируемой some_values, используйте isin:
+
+df.loc[df['column_name'].isin(some_values)]
+
+Объедините несколько условий с &:
+
+df.loc[(df['column_name'] >= A) & (df['column_name'] <= B)]
+
+Обратите внимание на круглые скобки. Из-за правил приоритета оператора Python & связывается более тесно, чем <= и >=. Таким образом, скобки в последнем примере необходимы. Без скобок
+
+df['column_name'] >= A & df['column_name'] <= B
+
+анализируется как
+
+df['column_name'] >= (A & df['column_name']) <= B
+
+что приводит к значению Истины Серии - неоднозначная ошибка.
+
+Чтобы выбрать строки, значение столбца которых не равно some_value, используйте !=:
+
+df.loc[df['column_name'] != some_value]
+
+isin возвращает логический ряд, поэтому, чтобы выбрать строки, значение которых не some_values в some_values, some_values логический ряд с помощью ~:
+
+df.loc[~df['column_name'].isin(some_values)]
